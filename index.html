@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>DnD Calculator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Error message about "Could not read source map" is VS Code attempting to debug chart.js. Ignore this message. -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link href="https://getbootstrap.com/docs/5.0/examples/grid/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <style>
+  .center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  </style>
+
+</head>
+<body>
+<div class="container" class="vh-100">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4">
+      <h3 class="center">Player 1</h3>
+      <form>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P1HP" placeholder="Health" name="P1HP">
+        <label for="P1HP">P1 Health</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P1AC" placeholder="AC" name="P1AC">
+        <label for="P1AC">P1 AC</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P1HitDice" placeholder="Hit Dice" name="P1HitDice">
+        <label for="P1HitDice">P1 Hit Dice</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P1DamageDice" placeholder="Damage Dice" name="P1DamageDice">
+        <label for="P1DamageDice">P1 Damage Dice</label>
+      </div>
+      <div class="center">
+        <button type="submit" class="btn btn-primary">Calculate</button>
+      </div>
+      </form>
+    </div>
+    <div class="col-sm-4">
+      <h3 class="center">Player 2</h3>
+      <form>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P2HP" placeholder="Health" name="P2HP">
+        <label for="P2HP">P2 Health</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P2AC" placeholder="AC" name="P2AC">
+        <label for="P2AC">P2 AC</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P2HitDice" placeholder="Hit Dice" name="P2HitDice">
+        <label for="P2HitDice">P2 Hit Dice</label>
+      </div>
+      <div class="form-floating mb-3 mt-3">
+        <input type="text" class="form-control" id="P2DamageDice" placeholder="Damage Dice" name="P2DamageDice">
+        <label for="P2DamageDice">P2 Damage Dice</label>
+      </div>
+      <div class="center">
+        <button type="submit" class="btn btn-secondary">Clear</button>
+      </div>
+      </form>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+  <div class="row">
+    <h1>Graphs go here</h1>
+  </div>
+</div>
+</body>
+</html>
