@@ -11,7 +11,7 @@ This Design Doc will be created using guidelines described in the Initial Planni
 ## Project Description
 Dungeons and Dragons is a popular tabletop game used to simulate combat and roleplaying. In order to practice my data visualization skills, I will create a simple web page that will allow the user to enter information about two individuals in physical combat and display statistical information about the result of the fight.
 Page layout is included in the screenshot below:
-
+![DnD Calculator Layout](/images/DnD-Calculator-Layout.png "Website layout with four input fields, two buttons, and three charts")
 
 ## Project Workflow
 Users will input basic stats for two combatants (Attacker and Defender) which, when the "Calculate" button is pressed, will three sets of informatics will appear: 1) A pie chart depicting the odds that the attacker will win. 2) A bar chart that will display the possible rolls that the attacker and defender and a vertical line depicting the value needed to hit the other opponent (their AC). 3) A table depicting the odds that each combatant is defeated at each turn.
@@ -52,3 +52,4 @@ The following are "nice to have" features that are not to be added to this curre
 - Calculating spells.
 - Table that shows how much health each character would have after each round.
 - Enhancement (Bless, Bane, Etc.).
+
