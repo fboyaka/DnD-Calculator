@@ -4,8 +4,11 @@
   <title>DnD Calculator</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="/js/index.js"></script>
-  <link rel="stylesheet" href="/css/styles.css">
+  <!-- Internal scripts and stylesheets -->
+  <script src="js/index.js"></script>
+  <link rel="stylesheet" href="css/index.css">
+
+  <!-- External scripts and stylesheets -->
   <!-- Error message about "Could not read source map" is VS Code attempting to debug chart.js. Ignore this message. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -34,10 +37,10 @@
         <input type="text" class="form-control" id="P1DamageDice" placeholder="Damage Dice" name="P1DamageDice">
         <label for="P1DamageDice">P1 Damage Dice</label>
       </div>
-      <div class="center">
-        <button type="submit" class="btn btn-primary">Calculate</button>
-      </div>
       </form>
+      <div class="center">
+        <button onclick="printAllInputs()" type="submit" class="btn btn-primary">Calculate</button>
+      </div>
     </div>
     <div class="col-sm-4">
       <h3 class="center">Player 2</h3>
@@ -58,10 +61,10 @@
         <input type="text" class="form-control" id="P2DamageDice" placeholder="Damage Dice" name="P2DamageDice">
         <label for="P2DamageDice">P2 Damage Dice</label>
       </div>
-      <div class="center">
-        <button type="submit" class="btn btn-secondary">Clear</button>
-      </div>
       </form>
+      <div class="center">
+        <button onclick="clearAllInputs()" type="submit" class="btn btn-secondary">Clear</button>
+      </div>
     </div>
     <div class="col-sm-2"></div>
   </div>
