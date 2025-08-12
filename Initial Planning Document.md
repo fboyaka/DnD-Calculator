@@ -39,14 +39,13 @@ Each project will consist of a Readme.md (Design Document + Current Sprint), one
 ### Style Guides, Cheat Sheets, and Tools
  - [Git Commit Convention](https://www.conventionalcommits.org/en/v1.0.0/#summary)
  - [Google Markdown Style Guide](https://google.github.io/styleguide/docguide/style.html)
- - [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/)
- - [JavaScript Cheat Sheet](https://htmlcheatsheet.com/js/)
- - [Google JavaScript Style Guide](https://google.github.io/styleguide/jsguide.html)
  - [Google Engineering Practices (Code Reviewer and Code Author's Guides)](https://google.github.io/eng-practices/)
- - [Pomodoro Alarm](https://pomofocus.io/)
+ - [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html)
+ - [Markdown Cheat Sheet](https://www.markdownguide.org/basic-syntax/)
  - [StackEdit (MD Editor)](https://stackedit.io/app#)
+ - [Pomodoro Alarm](https://pomofocus.io/)
 
 
-Learned Terms
+### Learned Terms
 - CL = Change List = The one change being made to the code branch. [(Source)](https://google.github.io/eng-practices/)
 - LGTM = Looks Good To Me = Approval on the associated task.[(Source)](https://google.github.io/eng-practices/)
