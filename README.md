@@ -1,5 +1,5 @@
 # DND Calculator
-This Design Doc will be created using guidelines described in the Initial Planning document.
+This Design Doc will be created using guidelines described in the [Initial Planning document)[Initial%20Planning%20Document.md].
 
 ## SPRINT 1 WEEK 1
 | MON | TUES | WED  | THURS | FRI |
@@ -52,4 +52,5 @@ The following are "nice to have" features that are not to be added to this curre
 - Calculating spells.
 - Table that shows how much health each character would have after each round.
 - Enhancement (Bless, Bane, Etc.).
+
 
