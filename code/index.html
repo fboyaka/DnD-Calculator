@@ -11,6 +11,7 @@
   <!-- External scripts and stylesheets -->
   <!-- Error message about "Could not read source map" is VS Code attempting to debug chart.js. Ignore this message. -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/14.6.0/math.min.js" integrity="sha512-nw07d3E1b2VJ8z/JI92aD68bVsX0K8XSSUB/IDUvAEvOlC75mJe3+IGg+zAnllwGku1hSHUVLqgtb+CUp7NeyQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link href="https://getbootstrap.com/docs/5.0/examples/grid/docs/5.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
@@ -39,7 +40,7 @@
       </div>
       </form>
       <div class="center">
-        <button onclick="printAllInputs()" type="submit" class="btn btn-primary">Calculate</button>
+        <button onclick="processAllInputs()" type="submit" class="btn btn-primary">Calculate</button>
       </div>
     </div>
     <div class="col-sm-4">
