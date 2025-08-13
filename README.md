@@ -41,6 +41,7 @@ This project will be divided into three parts:
 - HTML
 - JS
 - Chart.js
+- Math.js
 - Bootstrap 5
 
 
