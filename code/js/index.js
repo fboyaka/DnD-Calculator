@@ -258,7 +258,6 @@ function initializePieChart(canvasId){
     type: "pie",
     data: data,
   });
-  ctx.destroy();
 }
 
 /**
@@ -362,11 +361,11 @@ function displayP1Graph(inputData){
 function processAllInputs(){
   console.log("processAllInputs");
   
-  let dieString = "6d2+1d4 + 1";
-  let processResult = processDieString(dieString);
-  console.log("Process Result:");
-  console.log(processResult);
-  displayP1Graph(processResult);
+  // let dieString = "6d2+1d4 + 1";
+  // let processResult = processDieString(dieString);
+  // console.log("Process Result:");
+  // console.log(processResult);
+  // displayP1Graph(processResult);
   // let counts = countValues(processResult);
   // console.log(counts);
   // displayP1Graph();
@@ -390,7 +389,7 @@ function processAllInputs(){
  * Waits until all content is loaded before initializing the three charts.
  */
 document.addEventListener("DOMContentLoaded", function() {
-  // initializeBarChart("player1Chart");
-  // initializePieChart("oddsPieChart");
-  // initializeBarChart("player2Chart");
+  initializeBarChart("player1Chart");
+  initializePieChart("oddsPieChart");
+  initializeBarChart("player2Chart");
 });
