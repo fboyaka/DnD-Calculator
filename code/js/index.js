@@ -15,8 +15,11 @@ const months = [
   "December"
 ];
 
-const p1Chart = document.getElementById("player1Chart");
-const p2Chart = document.getElementById("player2Chart");
+let p1Chart = "";
+//const p1Context = document.getElementById("player1Chart").getContext("2d");
+let p2Chart = "";
+//const p2Context = document.getElementById("player2Chart").getContext("2d");
+let pieChart = "";
 
 // Funtions
 /**
@@ -187,7 +190,10 @@ function processDieString(dieString){
  */
 function initializeBarChart(canvasId){
   console.log("Initializng Bar: "+canvasId);
-  let ctx = document.getElementById(canvasId);
+  let ctx = "";
+  if(canvasId == "P1"){ctx = "player1Chart";}
+  if(canvasId == "P2"){ctx = "player2Chart";}
+  if(ctx == ""){return "";}
   let labels = months.slice(0,7);
   let data = {
     labels: labels,
@@ -215,8 +221,8 @@ function initializeBarChart(canvasId){
       borderWidth: 1
     }]
   };
-
-  new Chart(ctx, {
+  if(canvasId == "P1"){
+  p1Chart = new Chart(ctx, {
     type: "bar",
     data: data,
     options: {
@@ -227,6 +233,21 @@ function initializeBarChart(canvasId){
       }
     }
   });
+  }
+
+  if(canvasId == "P2"){
+  p2Chart = new Chart(ctx, {
+    type: "bar",
+    data: data,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+  }
 }
 
 /**
@@ -253,7 +274,7 @@ function initializePieChart(canvasId){
       hoverOffset: 4
     }]
   };
-
+  
   let initialChart = new Chart(ctx, {
     type: "pie",
     data: data,
@@ -275,22 +296,40 @@ function countValues(inputData){
 }
 
 /**
- * Updates the P1 side graph with a given string of data
+ * Takes a 1D array and returns a 2D array where the first row is the values
+ * and the second row is the count
+ * @param {chart}
+ */
+function removeData(chart) {
+  console.log("removeData");
+  console.log(chart);
+  chart.data.labels.pop();
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.pop();
+  });
+  chart.update();
+}
+
+/**
+ * Updates the given graph with a given string of data
  * @param {array}
  */
-function displayP1Graph(inputData){
+function displayGraph(chart,inputData,canvasId){
   console.log("displayP1Graph");
-  let ctx = document.getElementById("player1Chart");
+  //removeData(p1Chart);
+  //console.log("After Removing data");
+  
   //https://leimao.github.io/blog/JavaScript-ChartJS-Histogram/
   let allVals = countValues(inputData);
-  const x_vals = allVals[0];
-  const y_vals = allVals[1];
-  const data = x_vals.map((k, i) => ({x: k, y: y_vals[i]}));
+  let x_vals = allVals[0];
+  let y_vals = allVals[1];
+  let data = x_vals.map((k, i) => ({x: k, y: y_vals[i]}));
 
-  const backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
-  const borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
+  let backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
+  let borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
 
-  const myChart = new Chart(ctx, {
+  chart.destroy();
+  chart = new Chart(canvasId, {
       type: "bar",
       data: {
           datasets: [{
@@ -360,36 +399,26 @@ function displayP1Graph(inputData){
 // Function execution
 function processAllInputs(){
   console.log("processAllInputs");
-  
-  // let dieString = "6d2+1d4 + 1";
-  // let processResult = processDieString(dieString);
-  // console.log("Process Result:");
-  // console.log(processResult);
-  // displayP1Graph(processResult);
-  // let counts = countValues(processResult);
-  // console.log(counts);
-  // displayP1Graph();
-  // let dieVals = getDieValues("2d3");
-  // console.log("getDieValues(one value):");
-  // console.log(dieVals);
-  // dieVals = getMultipleDieValues(["2d3","1d4"]);
-  // console.log("getDieValues(many values):");
-  // console.log(dieVals);
-  // let cartesianResult = cartesian(cartList);
-  // console.log("Cartesian Result:");
-  // console.log(cartesianResult);
-  // let tempArr = math.setCartesian([1, 2], [3, 4]);
-  // console.log(tempArr);
+  let allInputs = getInputs();
 
-  // cartList.forEach(applyReduce);
-  // console.log(cartList);
+  console.log(allInputs["P1HitDice"]);
+  console.log(allInputs["P2HitDice"]);
+  let p1Process = processDieString(allInputs["P1HitDice"]);
+  console.log("Process Result1:");
+  console.log(p1Process.length);
+  displayGraph(p1Chart,p1Process,"player1Chart");
+
+  let p2Process = processDieString(allInputs["P2HitDice"]);
+  console.log("Process Result2:");
+  console.log(p2Process.length);
+  displayGraph(p2Chart,p2Process,"player2Chart");
 }
 
 /**
  * Waits until all content is loaded before initializing the three charts.
  */
 document.addEventListener("DOMContentLoaded", function() {
-  initializeBarChart("player1Chart");
+  initializeBarChart("P1");
   initializePieChart("oddsPieChart");
-  initializeBarChart("player2Chart");
+  initializeBarChart("P2");
 });
