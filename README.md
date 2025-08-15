@@ -40,9 +40,9 @@ This project will be divided into three parts:
 ## Technologies
 - HTML
 - JS
-- Chart.js
-- Math.js
-- Bootstrap 5
+  - Chart.js
+  - Math.js
+  - Bootstrap 5
 
 
 ## Additional Features
