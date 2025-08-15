@@ -7,6 +7,8 @@ This Design Doc will be created using guidelines described in the [Initial Plann
 |~~(0.5 pts) Sprint Planning~~|~~(0.5 pts) Button/Input Initialization~~|~~(1 pt) Range of Hit Dice VS AC graph~~|~~(1 pt) DPS Calculation per Character~~|(0.5 pts) Sprint Retrospective|
 |~~(0.5 pts) Initialize Inputs and Buttons~~|~~(0.5 pts) Graph Initialization~~|||(0.5 pts) Input Validation|
 
+**Table 1:** Scrum Board
+
 
 ## Project Description
 Dungeons and Dragons is a popular tabletop game used to simulate combat and roleplaying. In order to practice my data visualization skills, I will create a simple web page that will allow the user to enter information about two individuals in physical combat and display statistical information about the result of the fight.
@@ -18,41 +20,49 @@ Users will input basic stats for two combatants (Attacker and Defender) which, w
 
 ## Story Tasks and Requirements
 This project will be divided into three parts:
-1. User Interface (Buttons, input fields, and graph initialization)
-	- 8 Text inputs
-		- Attacker/Defender AC
-		- Attacker/Defender HP
-		- Attacker/Defender Hit Dice
-		- Attacker/Defender Damage Dice
-	- 2 Buttons
-		- Calculate Result
-		- Clear All Inputs
-2. Functionality (JS functions and input handling)
-	- Clearing Inputs
-	- Data Validation
-	- Processing input for visualization
-3. Data Visualization (Dynamic graphs)
-	- Average DPS per character
-	- Odds of which character would win
-	- Range of Hit Dice vs opposing AC
+1.  User Interface (Buttons, input fields, and graph initialization)
+	-   8 Text inputs
+		-   Attacker/Defender AC
+		-   Attacker/Defender HP
+		-   Attacker/Defender Hit Dice
+		-   Attacker/Defender Damage Dice
+	-   2 Buttons
+		-   Calculate Result
+		-   Clear All Inputs
+2.  Functionality (JS functions and input handling)
+	-   Clearing Inputs
+	-   Data Validation
+	-   Processing input for visualization
+3.  Data Visualization (Dynamic graphs)
+	-   Average DPS per character
+	-   Odds of which character would win
+	-   Range of Hit Dice vs opposing AC
 
 
 ## Technologies
-- HTML
-- JS
-  - Chart.js
-  - Math.js
-  - Bootstrap 5
+-    HTML
+-    JS
+	-   Chart.js
+	-   Math.js
+	-   Bootstrap 5
 
 
 ## Additional Features
 The following are "nice to have" features that are not to be added to this current iteration of the project.
-- Toggle for who goes first.
-- Multiple attacks.
-- Average health per round.
-- Calculating spells.
-- Table that shows how much health each character would have after each round.
-- Enhancement (Bless, Bane, Etc.).
+-   Toggle for who goes first.
+-   Multiple attacks.
+-   Average health per round.
+-   Calculating spells.
+-   Table that shows how much health each character would have after each round.
+-   Enhancement (Bless, Bane, Etc.).
 
+## Sprint Review
+| LIKED | LEARNED | LACKED  | LONGED FOR |
+|--|--|--|--|
+|Timeliness of completing tasks.|Break more complicated tasks (i.e. hit dice table) into visualization and functionality instead of the entire goal.|More specific requirements for deliverables|More time to clean up the visuals.|
+|Pivoting the code structure to follow traditional file organization.|Displaying and updating a graph with Chart.js|||
+**Table 2:** Sprint Review Board
 
+This was a successful sprint. The original version of this project was predicted to take 3 weeks but after careful consideration I was able to create a functional product in only 5 days (including today).
 
+Overall, the only thing left wanting for this sprint was cleaning up the visuals for the plot and HTML page itself to be more :sparkles:elegant:sparkles:. However, the main objective of this sprint was to be an exercise in planning. Therefore, visual improvement can be performed in the future when more time is available and after the complete functionality is complete.
