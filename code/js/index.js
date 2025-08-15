@@ -404,62 +404,62 @@ function validateInputs(allInputs){
   // Integer verification
   try{
     // P1Health
-    if(validateInteger(allInputs["P1Health"])){ invalidFields.push('Player 1 Health'); }
+    if(validateInteger(allInputs["P1Health"])){ invalidFields.push("Player 1 Health"); }
   }
   catch{
-    invalidFields.push('Player 1 Health');
+    invalidFields.push("Player 1 Health");
   }
   try{
     // P1Ac
-    if(validateInteger(allInputs["P1Ac"])){ invalidFields.push('Player 1 AC'); }
+    if(validateInteger(allInputs["P1Ac"])){ invalidFields.push("Player 1 AC"); }
   }
   catch{
-    invalidFields.push('Player 1 AC');
+    invalidFields.push("Player 1 AC");
   }
   try{
     // P2Health
-    if(validateInteger(allInputs["P2Health"])){ invalidFields.push('Player 2 Health'); }
+    if(validateInteger(allInputs["P2Health"])){ invalidFields.push("Player 2 Health"); }
   }
   catch{
-    invalidFields.push('Player 2 Health');
+    invalidFields.push("Player 2 Health");
   }
   try{
     // P2Ac
-    if(validateInteger(allInputs["P2Ac"])){ invalidFields.push('Player 2 AC'); }
+    if(validateInteger(allInputs["P2Ac"])){ invalidFields.push("Player 2 AC"); }
   }
   catch{
-    invalidFields.push('Player 2 AC');
+    invalidFields.push("Player 2 AC");
   }
 
   let temp = "";
   // String verification
   try{
     // P1HitDice
-    if(validateString(allInputs["P1HitDice"])){ invalidFields.push('Player 1 Hit Dice'); }
+    if(validateString(allInputs["P1HitDice"])){ invalidFields.push("Player 1 Hit Dice"); }
   }
   catch{
-    invalidFields.push('Player 1 Hit Dice');
+    invalidFields.push("Player 1 Hit Dice");
   }
   try{
     // P1DamageDice
-    if(validateString(allInputs["P1DamageDice"])){ invalidFields.push('Player 1 Damage Dice'); }
+    if(validateString(allInputs["P1DamageDice"])){ invalidFields.push("Player 1 Damage Dice"); }
   }
   catch{
-    invalidFields.push('Player 1 Damage Dice');
+    invalidFields.push("Player 1 Damage Dice");
   }
   try{
     // P2HitDice
-    if(validateString(allInputs["P2HitDice"])){ invalidFields.push('Player 2 Hit Dice'); }
+    if(validateString(allInputs["P2HitDice"])){ invalidFields.push("Player 2 Hit Dice"); }
   }
   catch{
-    invalidFields.push('Player 2 Hit Dice');
+    invalidFields.push("Player 2 Hit Dice");
   }
   try{
     // P2DamageDice
-    if(validateString(allInputs["P2DamageDice"])){ invalidFields.push('Player 2 Damage Dice'); }
+    if(validateString(allInputs["P2DamageDice"])){ invalidFields.push("Player 2 Damage Dice"); }
   }
   catch{
-    invalidFields.push('Player 2 Damage Dice');
+    invalidFields.push("Player 2 Damage Dice");
   }
 
   if(invalidFields.length > 0){
