@@ -28,6 +28,7 @@ let pieChart = "";
  * @return {Set}
  */
 function getInputs(){
+  console.log("getInputs");
   let allInputs = {
     "P1Health" : document.getElementById("P1HP").value,
     "P1Ac" : document.getElementById("P1AC").value,
@@ -38,11 +39,6 @@ function getInputs(){
     "P2HitDice" : document.getElementById("P2HitDice").value,
     "P2DamageDice" : document.getElementById("P2DamageDice").value
   };
-  /* Use this code snippet to iterate through the object if necessary.
-  for (const [key, value] of Object.entries(allInputs)) {
-    console.log(`${key}: ${value}`);
-  }
-  */
   return allInputs;
 }
 
@@ -51,7 +47,7 @@ function getInputs(){
  * @param {None}
  */
 function clearAllInputs(){
-  console.log("Clear all inputs");
+  console.log("clearAllInputs");
   document.getElementById("P1HP").value = "";
   document.getElementById("P1AC").value = "";
   document.getElementById("P1HitDice").value = "";
@@ -67,7 +63,7 @@ function clearAllInputs(){
  * @param {None}
  */
 function printAllInputs(){
-  console.log("Print all inputs");
+  console.log("printAllInputs");
   let userInputs = getInputs();
   console.log(userInputs);
 }
@@ -90,7 +86,7 @@ function applyReduce(item, index, arr) {
  * @param {String}
  */
 function cartesian(multiLists){
-  console.log("cartesian function");
+  console.log("cartesian");
   let resultsList = [];
   
   // cartesian product
@@ -98,11 +94,7 @@ function cartesian(multiLists){
     if(i == 0){resultsList = multiLists[0]}
     else{
       resultsList = math.setCartesian(resultsList, multiLists[i]);
-      // console.log("Before reduction:");
-      // console.log(resultsList);
       resultsList.forEach(applyReduce);
-      // console.log("After reduction:");
-      // console.log(resultsList);
     }
   }
   return resultsList;
@@ -139,11 +131,7 @@ function getDieValues(dieString){
   for(let i = 0; i < times; i++){
     resultsList.push(createArray(die));
   }
-  console.log("Pre-cartesian list:");
-  console.log(resultsList);
   resultsList = cartesian(resultsList);
-  console.log("Post-cartesian list:");
-  console.log(resultsList);
   return resultsList;
 }
 
@@ -172,15 +160,9 @@ function processDieString(dieString){
   if(typeof(dieString) == "string" && dieString.length == 0){return allResultsList;}
   // Remove any outlying formatting such as spaces
   dieString = dieString.replaceAll(" ","");
-
   let dieStringSplit = dieString.split("+");
-  console.log("dieStringSplit:");
-  console.log(dieStringSplit);
-
   dieStringSplit.forEach(getMultipleDieValues);
-
   dieStringSplit = cartesian(dieStringSplit);
-  
   return dieStringSplit;
 }
 
@@ -255,7 +237,7 @@ function initializeBarChart(canvasId){
  * @param {String}
  */
 function initializePieChart(canvasId){
-  console.log("Initializng Pie: "+canvasId);
+  console.log("initializePieChart: "+canvasId);
   let ctx = document.getElementById(canvasId);
   let data = {
     labels: [
@@ -287,6 +269,7 @@ function initializePieChart(canvasId){
  * @param {array}
  */
 function countValues(inputData){
+  console.log("countValues");
   let valueCount = [[],[]];
 
   const map = inputData.reduce((acc, e) => acc.set(e, (acc.get(e) || 0) + 1), new Map());
@@ -302,7 +285,6 @@ function countValues(inputData){
  */
 function removeData(chart) {
   console.log("removeData");
-  console.log(chart);
   chart.data.labels.pop();
   chart.data.datasets.forEach((dataset) => {
       dataset.data.pop();
@@ -316,15 +298,12 @@ function removeData(chart) {
  */
 function displayGraph(chart,inputData,canvasId){
   console.log("displayP1Graph");
-  //removeData(p1Chart);
-  //console.log("After Removing data");
   
   //https://leimao.github.io/blog/JavaScript-ChartJS-Histogram/
   let allVals = countValues(inputData);
   let x_vals = allVals[0];
   let y_vals = allVals[1];
   let data = x_vals.map((k, i) => ({x: k, y: y_vals[i]}));
-
   let backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
   let borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
 
@@ -396,35 +375,134 @@ function displayGraph(chart,inputData,canvasId){
   });
 }
 
+/**
+ * Returns false when the string contains a value other than numbers, a plus(+), or the lowercase letter d.
+ * @param {string}
+ */
+function validateString(inputString){
+  let temp = /[^0-9d +]/g.test(inputString);
+  return temp;
+}
+
+/**
+ * Returns false when the string is not a single number or contains any non numeric values.
+ * @param {string}
+ */
+function validateInteger(inputString){
+  let temp = /[^0-9]/g.test(inputString);
+  return temp;
+}
+
+/**
+ * Creates an alert and returns false when any input is invalid.
+ * Returns true when all inputs are valid.
+ * @param {array}
+ */
+function validateInputs(allInputs){
+  let invalidFields = [];
+
+  // Integer verification
+  try{
+    // P1Health
+    if(validateInteger(allInputs["P1Health"])){ invalidFields.push('Player 1 Health'); }
+  }
+  catch{
+    invalidFields.push('Player 1 Health');
+  }
+  try{
+    // P1Ac
+    if(validateInteger(allInputs["P1Ac"])){ invalidFields.push('Player 1 AC'); }
+  }
+  catch{
+    invalidFields.push('Player 1 AC');
+  }
+  try{
+    // P2Health
+    if(validateInteger(allInputs["P2Health"])){ invalidFields.push('Player 2 Health'); }
+  }
+  catch{
+    invalidFields.push('Player 2 Health');
+  }
+  try{
+    // P2Ac
+    if(validateInteger(allInputs["P2Ac"])){ invalidFields.push('Player 2 AC'); }
+  }
+  catch{
+    invalidFields.push('Player 2 AC');
+  }
+
+  let temp = "";
+  // String verification
+  try{
+    // P1HitDice
+    if(validateString(allInputs["P1HitDice"])){ invalidFields.push('Player 1 Hit Dice'); }
+  }
+  catch{
+    invalidFields.push('Player 1 Hit Dice');
+  }
+  try{
+    // P1DamageDice
+    if(validateString(allInputs["P1DamageDice"])){ invalidFields.push('Player 1 Damage Dice'); }
+  }
+  catch{
+    invalidFields.push('Player 1 Damage Dice');
+  }
+  try{
+    // P2HitDice
+    if(validateString(allInputs["P2HitDice"])){ invalidFields.push('Player 2 Hit Dice'); }
+  }
+  catch{
+    invalidFields.push('Player 2 Hit Dice');
+  }
+  try{
+    // P2DamageDice
+    if(validateString(allInputs["P2DamageDice"])){ invalidFields.push('Player 2 Damage Dice'); }
+  }
+  catch{
+    invalidFields.push('Player 2 Damage Dice');
+  }
+
+  if(invalidFields.length > 0){
+    invalidFields = invalidFields.join("\n");
+    alert("The following inputs are invalid:\n"+invalidFields);
+    return false;
+  } else{
+    return true;
+  }
+}
+
 // Function execution
 function processAllInputs(){
   console.log("processAllInputs");
   let allInputs = getInputs();
 
-  console.log(allInputs["P1HitDice"]);
-  console.log(allInputs["P2HitDice"]);
-  let p1Process = processDieString(allInputs["P1HitDice"]);
-  console.log("Process Result1:");
-  console.log(p1Process.length);
-  displayGraph(p1Chart,p1Process,"player1Chart");
+  let valid = validateInputs(allInputs);
+  if(valid){
 
-  let p2Process = processDieString(allInputs["P2HitDice"]);
-  console.log("Process Result2:");
-  console.log(p2Process.length);
-  displayGraph(p2Chart,p2Process,"player2Chart");
+    let p1Process = processDieString(allInputs["P1HitDice"]);
+    console.log("Process Result1:");
+    console.log(p1Process.length);
+    displayGraph(p1Chart,p1Process,"player1Chart");
 
-  // Getting the result of damage dice
-  let p1Damage = processDieString(allInputs["P1DamageDice"]);
-  let p1Sum = p1Damage.reduce((acc, curr) => acc + curr, 0);
-  let p1Average = p1Sum / p1Damage.length;
-  console.log("P1Average: "+p1Average);
-  document.getElementById("p1DPS").innerHTML = p1Average;
+    let p2Process = processDieString(allInputs["P2HitDice"]);
+    console.log("Process Result2:");
+    console.log(p2Process.length);
+    displayGraph(p2Chart,p2Process,"player2Chart");
 
-  let p2Damage = processDieString(allInputs["P2DamageDice"]);
-  let p2Sum = p2Damage.reduce((acc, curr) => acc + curr, 0);
-  let p2Average = p2Sum / p2Damage.length;
-  console.log("P1Average: "+p2Average);
-  document.getElementById("p2DPS").innerHTML = p2Average;
+    // Getting the result of damage dice
+    let p1Damage = processDieString(allInputs["P1DamageDice"]);
+    let p1Sum = p1Damage.reduce((acc, curr) => acc + curr, 0);
+    let p1Average = p1Sum / p1Damage.length;
+    console.log("P1Average: "+p1Average);
+    document.getElementById("p1DPS").innerHTML = p1Average;
+
+    let p2Damage = processDieString(allInputs["P2DamageDice"]);
+    let p2Sum = p2Damage.reduce((acc, curr) => acc + curr, 0);
+    let p2Average = p2Sum / p2Damage.length;
+    console.log("P1Average: "+p2Average);
+    document.getElementById("p2DPS").innerHTML = p2Average;
+  }
+  else{console.log("Booooooo!");}
 }
 
 /**
