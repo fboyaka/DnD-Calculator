@@ -412,6 +412,19 @@ function processAllInputs(){
   console.log("Process Result2:");
   console.log(p2Process.length);
   displayGraph(p2Chart,p2Process,"player2Chart");
+
+  // Getting the result of damage dice
+  let p1Damage = processDieString(allInputs["P1DamageDice"]);
+  let p1Sum = p1Damage.reduce((acc, curr) => acc + curr, 0);
+  let p1Average = p1Sum / p1Damage.length;
+  console.log("P1Average: "+p1Average);
+  document.getElementById("p1DPS").innerHTML = p1Average;
+
+  let p2Damage = processDieString(allInputs["P2DamageDice"]);
+  let p2Sum = p2Damage.reduce((acc, curr) => acc + curr, 0);
+  let p2Average = p2Sum / p2Damage.length;
+  console.log("P1Average: "+p2Average);
+  document.getElementById("p2DPS").innerHTML = p2Average;
 }
 
 /**
