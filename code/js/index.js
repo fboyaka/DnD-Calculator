@@ -34,10 +34,14 @@ function getInputs(){
     "P1Ac" : document.getElementById("P1AC").value,
     "P1HitDice" : document.getElementById("P1HitDice").value,
     "P1DamageDice" : document.getElementById("P1DamageDice").value,
+    "P1AverageHit" : 0,
+    "P1AverageDamage" : 0,
     "P2Health" : document.getElementById("P2HP").value,
     "P2Ac" : document.getElementById("P2AC").value,
     "P2HitDice" : document.getElementById("P2HitDice").value,
-    "P2DamageDice" : document.getElementById("P2DamageDice").value
+    "P2DamageDice" : document.getElementById("P2DamageDice").value,
+    "P2AverageHit" : 0,
+    "P2AverageDamage" : 0
   };
   return allInputs;
 }
@@ -257,10 +261,43 @@ function initializePieChart(canvasId){
     }]
   };
   
-  let initialChart = new Chart(ctx, {
+  pieChart = new Chart("oddsPieChart", {
     type: "pie",
     data: data,
   });
+}
+
+/**
+ * Updates the Pie Chart when given the necessary
+ * @param {Chart,array}
+ */
+function processPieChart(chart,allInputs){
+  console.log("initializePieChart: ");
+  let ctx = document.getElementById("oddsPieChart");
+  //let p1FullCalc = ;
+
+  let data = {
+    labels: [
+      "Player 1",
+      "Player 2"
+    ],
+    datasets: [{
+      label: "Odds of Winning",
+      data: [allInputs["P1AverageHit"], allInputs["P2AverageHit"]],
+      backgroundColor: [
+        "#bc5090",
+        "#ffa600"
+      ],
+      hoverOffset: 4
+    }]
+  };
+
+  chart.destroy();
+  chart = new Chart("oddsPieChart", {
+    type: "pie",
+    data: data,
+  });
+  return "";
 }
 
 /**
@@ -294,7 +331,7 @@ function removeData(chart) {
 
 /**
  * Updates the given graph with a given string of data
- * @param {array}
+ * @param {Chart, array, string}
  */
 function displayGraph(chart,inputData,canvasId){
   console.log("displayP1Graph");
@@ -303,6 +340,10 @@ function displayGraph(chart,inputData,canvasId){
   let allVals = countValues(inputData);
   let x_vals = allVals[0];
   let y_vals = allVals[1];
+  let y_vals_sums = y_vals;
+  y_vals_sums = y_vals_sums.reduce((partialSum, a) => partialSum + a, 0);
+  console.log("Yvalsums");
+  console.log(y_vals_sums);
   let data = x_vals.map((k, i) => ({x: k, y: y_vals[i]}));
   let backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
   let borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
@@ -312,7 +353,7 @@ function displayGraph(chart,inputData,canvasId){
       type: "bar",
       data: {
           datasets: [{
-              label: "Num of Visitors",
+              label: "Num of results",
               data: data,
               backgroundColor: backgroundColor,
               borderColor: borderColor,
@@ -325,6 +366,7 @@ function displayGraph(chart,inputData,canvasId){
       options: {
           scales: {
               x: {
+                  beginAtZero: true,
                   type: "linear",
                   offset: false,
                   grid: {
@@ -335,17 +377,17 @@ function displayGraph(chart,inputData,canvasId){
                   },
                   title: {
                     display: true,
-                    text: "Hours",
+                    text: "Result",
                     font: {
                         size: 14
                     }
                   }
               }, 
               y: {
-                  // beginAtZero: true
+                  beginAtZero: true,
                   title: {
                     display: true,
-                    text: "Visitors",
+                    text: "Frequency",
                     font: {
                         size: 14
                     }
@@ -363,10 +405,8 @@ function displayGraph(chart,inputData,canvasId){
                     return "";
                   }
                   const item = items[0];
-                  const x = item.parsed.x;
-                  const min = x - 0.5;
-                  const max = x + 0.5;
-                  return `Hours: ${min} - ${max}`;
+                  const y = item.parsed.y;
+                  return "Odds of value:"+((y/y_vals_sums).toFixed(2)*100).toString()+"%";
                 }
               }
             }
@@ -489,18 +529,35 @@ function processAllInputs(){
     console.log(p2Process.length);
     displayGraph(p2Chart,p2Process,"player2Chart");
 
+    // Getting the result of hit dice
+    let p1HitSum = p1Process.reduce((acc, curr) => acc + curr, 0);
+    let p1HitAverage = p1HitSum / p1Process.length;
+    console.log("P1HitAverage: "+p1HitAverage);
+
+    let p2HitSum = p1Process.reduce((acc, curr) => acc + curr, 0);
+    let p2HitAverage = p2HitSum / p2Process.length;
+    console.log("P2HitAverage: "+p2HitAverage);
+
+
     // Getting the result of damage dice
     let p1Damage = processDieString(allInputs["P1DamageDice"]);
-    let p1Sum = p1Damage.reduce((acc, curr) => acc + curr, 0);
-    let p1Average = p1Sum / p1Damage.length;
-    console.log("P1Average: "+p1Average);
-    document.getElementById("p1DPS").innerHTML = p1Average;
+    let p1DamageSum = p1Damage.reduce((acc, curr) => acc + curr, 0);
+    let p1DamageAverage = p1DamageSum / p1Damage.length;
+    console.log("P1DamageAverage: "+p1DamageAverage);
+    document.getElementById("p1DPS").innerHTML = p1DamageAverage;
 
     let p2Damage = processDieString(allInputs["P2DamageDice"]);
-    let p2Sum = p2Damage.reduce((acc, curr) => acc + curr, 0);
-    let p2Average = p2Sum / p2Damage.length;
-    console.log("P1Average: "+p2Average);
-    document.getElementById("p2DPS").innerHTML = p2Average;
+    let p2DamageSum = p2Damage.reduce((acc, curr) => acc + curr, 0);
+    let p2DamageAverage = p2DamageSum / p2Damage.length;
+    console.log("P2DamageAverage: "+p2DamageAverage);
+    document.getElementById("p2DPS").innerHTML = p2DamageAverage;
+
+    allInputs["P1AverageHit"] = p1HitAverage;
+    allInputs["P1AverageDamage"] = p1DamageAverage;
+    allInputs["P2AverageHit"] = p2HitAverage;
+    allInputs["P2AverageDamage"] = p2DamageAverage;
+
+    processPieChart(pieChart,allInputs);
   }
   else{console.log("Booooooo!");}
 }
