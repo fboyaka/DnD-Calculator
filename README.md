@@ -4,8 +4,8 @@ This Design Doc will be created using guidelines described in the [Initial Plann
 ## SPRINT 1 WEEK 2 (August 18)
 | MON | TUES | WED  | THURS | FRI |
 |--|--|--|--|--|
-|~~(0.5pts) Sprint planning~~|(0.5pts) Vertical line on chart for AC|(0.5pts) Tab visuals|(1pt) Sprint planning page|(1pt) Home/About Me page|
-|(0.5pts) Chart update|(0.5pts) Website layout and page planning|(0.5pts) Tab functionality|||
+|~~(0.5pts) Sprint planning~~|(0.5pts) Vertical line on chart for AC|(0.5pts) Migrate code to fboyaka.github.io page|(0.5pts) Tab visuals|(1pt) Home/About Me page|
+|(0.5pts) Chart update|(0.5pts) Website layout and page planning|(0.5pts) Refactor code for fboyaka.github.io|(0.5pts) Tab functionality|(0.5pts) Sprint planning page|
 **Table 1:** Scrum Board
 
 
@@ -68,7 +68,7 @@ The following are "nice to have" features that are not to be added to this curre
 |--|--|--|--|
 |Timeliness of completing tasks.|Break more complicated tasks (i.e. hit dice table) into visualization and functionality instead of the entire goal.|More specific requirements for deliverables|More time to clean up the visuals.|
 |Pivoting the code structure to follow traditional file organization.|Displaying and updating a graph with Chart.js|||
-**Table 2:** Sprint Review Board
+**Table 3:** Sprint Review Board
 
 This was a successful sprint. The original version of this project was predicted to take 3 weeks but after careful consideration I was able to create a functional product in only 5 days (including today).
 
