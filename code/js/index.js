@@ -271,10 +271,12 @@ function initializePieChart(canvasId){
  * Updates the Pie Chart when given the necessary
  * @param {Chart,array}
  */
-function processPieChart(chart,allInputs){
+function processPieChart(chart,allInputs,canvasId){
   console.log("initializePieChart: ");
-  let ctx = document.getElementById("oddsPieChart");
-  //let p1FullCalc = ;
+  let p1FullCalc = (allInputs["P1AverageHit"]/allInputs["P2Ac"])*(allInputs["P1AverageDamage"]/allInputs["P2Health"]);
+  let p2FullCalc = (allInputs["P2AverageHit"]/allInputs["P1Ac"])*(allInputs["P2AverageDamage"]/allInputs["P1Health"]);
+  let calcSum = p1FullCalc+p2FullCalc;
+  Chart.getChart(canvasId).destroy();
 
   let data = {
     labels: [
@@ -283,7 +285,7 @@ function processPieChart(chart,allInputs){
     ],
     datasets: [{
       label: "Odds of Winning",
-      data: [allInputs["P1AverageHit"], allInputs["P2AverageHit"]],
+      data: [p1FullCalc/calcSum, p2FullCalc/calcSum],
       backgroundColor: [
         "#bc5090",
         "#ffa600"
@@ -348,7 +350,7 @@ function displayGraph(chart,inputData,canvasId){
   let backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
   let borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
 
-  chart.destroy();
+  Chart.getChart(canvasId).destroy();
   chart = new Chart(canvasId, {
       type: "bar",
       data: {
@@ -557,7 +559,7 @@ function processAllInputs(){
     allInputs["P2AverageHit"] = p2HitAverage;
     allInputs["P2AverageDamage"] = p2DamageAverage;
 
-    processPieChart(pieChart,allInputs);
+    processPieChart(pieChart,allInputs,"oddsPieChart");
   }
   else{console.log("Booooooo!");}
 }
