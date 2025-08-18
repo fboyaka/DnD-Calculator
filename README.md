@@ -1,13 +1,20 @@
 # DND Calculator
 This Design Doc will be created using guidelines described in the [Initial Planning document](Initial%20Planning%20Document.md).
 
-## SPRINT 1 WEEK 1
+## SPRINT 1 WEEK 2 (August 18)
 | MON | TUES | WED  | THURS | FRI |
 |--|--|--|--|--|
-|~~(0.5 pts) Sprint Planning~~|~~(0.5 pts) Button/Input Initialization~~|~~(1 pt) Range of Hit Dice VS AC graph~~|~~(1 pt) DPS Calculation per Character~~|(0.5 pts) Sprint Retrospective|
-|~~(0.5 pts) Initialize Inputs and Buttons~~|~~(0.5 pts) Graph Initialization~~|||(0.5 pts) Input Validation|
-
+|~~(0.5pts) Sprint planning~~|(0.5pts) Vertical line on chart for AC|(0.5pts) Tab visuals|(1pt) Sprint planning page|(1pt) Home/About Me page|
+|(0.5pts) Chart update|(0.5pts) Website layout and page planning|(0.5pts) Tab functionality|||
 **Table 1:** Scrum Board
+
+
+## SPRINT 1 WEEK 1 (August 11)
+| MON | TUES | WED  | THURS | FRI |
+|--|--|--|--|--|
+|~~(0.5 pts) Sprint Planning~~|~~(0.5 pts) Button/Input Initialization~~|~~(1 pt) Range of Hit Dice VS AC graph~~|~~(1 pt) DPS Calculation per Character~~|~~(0.5 pts) Sprint Retrospective~~|
+|~~(0.5 pts) Initialize Inputs and Buttons~~|~~(0.5 pts) Graph Initialization~~|||~~(0.5 pts) Input Validation~~|
+**Table 2:** Completed Scrum Board
 
 
 ## Project Description
