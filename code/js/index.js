@@ -20,16 +20,47 @@ let p1Chart = "";
 let p2Chart = "";
 //const p2Context = document.getElementById("player2Chart").getContext("2d");
 let pieChart = "";
+let allInputs = {};
+
+/**
+ * Plugin which draws a vertical line on the given chart. 
+ */
+// https://stackoverflow.com/questions/30256695/chart-js-drawing-an-arbitrary-vertical-line
+const verticalLinePlugin = {
+  renderVerticalLine: function (chartInstance, pointIndex) {
+    const lineLeftOffset = chartInstance.scales.x.getPixelForValue(pointIndex);
+    const scale = chartInstance.scales.y;
+
+    const context = chartInstance.ctx;
+    // render vertical line
+    context.beginPath();
+    context.strokeStyle = '#2f00ffff';
+    context.lineWidth = 5;
+    context.moveTo(lineLeftOffset, scale.top);
+    context.lineTo(lineLeftOffset, scale.bottom);
+    context.stroke();
+
+    // write label
+    context.fillStyle = "#000000ff";
+    context.textAlign = 'center';
+    context.fillText('AC to beat', lineLeftOffset, scale.top);
+  },
+
+  beforeDatasetsDraw: function (chart, easing) {
+    if(chart.config._config.lineAtIndex)
+    chart.config._config.lineAtIndex.forEach(pointIndex => this.renderVerticalLine(chart, pointIndex));
+  }
+};
 
 // Funtions
 /**
  * Returns the current values of all text input fields.
- * @param None
+ * @param {}
  * @return {Set}
  */
 function getInputs(){
   console.log("getInputs");
-  let allInputs = {
+  allInputs = {
     "P1Health" : document.getElementById("P1HP").value,
     "P1Ac" : document.getElementById("P1AC").value,
     "P1HitDice" : document.getElementById("P1HitDice").value,
@@ -45,12 +76,11 @@ function getInputs(){
     "P2AverageDamage" : 0,
     "P2HitDiceValues" : []
   };
-  return allInputs;
 }
 
 /**
  * Removes all current values for text input fields.
- * @param {None}
+ * @param {}
  */
 function clearAllInputs(){
   console.log("clearAllInputs");
@@ -66,16 +96,16 @@ function clearAllInputs(){
 
 /**
  * Prints all current inputs to the console.
- * @param {None}
+ * @param {}
  */
 function printAllInputs(){
   console.log("printAllInputs");
-  let userInputs = getInputs();
+  getInputs();
   console.log(userInputs);
 }
 
 /**
- * Applies the reduce function for eve
+ * Applies the reduce function for every value of an array.
  * Format: [[1,2,3],[1,2,3]]
  * Result: [6,6]
  * @param {item, index, arr}
@@ -94,8 +124,7 @@ function applyReduce(item, index, arr) {
 function cartesian(multiLists){
   console.log("cartesian");
   let resultsList = [];
-  
-  // cartesian product
+
   for(let i = 0; i < multiLists.length; i++){
     if(i == 0){resultsList = multiLists[0]}
     else{
@@ -106,10 +135,8 @@ function cartesian(multiLists){
   return resultsList;
 }
 
-
-
 /**
- * Returns an array of 1 to N when given a value
+ * Returns an array of 1 to N when given a value.
  * Format: 3
  * Result: [1,2,3]
  * @param {Int}
@@ -230,7 +257,8 @@ function initializeBarChart(canvasId){
     options: {
       scales: {
         y: {
-          beginAtZero: true
+          beginAtZero: true,
+          max: 120
         }
       }
     }
@@ -271,9 +299,9 @@ function initializePieChart(canvasId){
 
 /**
  * Updates the Pie Chart when given the necessary
- * @param {array,string}
+ * @param {string}
  */
-function calculateDamageScore(allInputs,player){
+function calculateDamageScore(player){
   console.log("calculateDamageScore");
   let damageScore = 0;
   let hitDice = [];
@@ -309,9 +337,9 @@ function calculateDamageScore(allInputs,player){
 
 /**
  * Updates the Pie Chart when given the necessary
- * @param {Chart,array,String}
+ * @param {Chart,String}
  */
-function processPieChart(chart,allInputs,canvasId){
+function displayPieChart(chart,canvasId){
   console.log("initializePieChart: ");
   let p1FullCalc = calculateDamageScore(allInputs,"P1");
   let p2FullCalc = calculateDamageScore(allInputs,"P2");
@@ -347,7 +375,7 @@ function processPieChart(chart,allInputs,canvasId){
               const values = tooltipData.dataset.data[tooltipData.dataIndex].toFixed(3);
               const result = tooltipData.dataset.data.reduce((var1, var2) => var1 + var2,0);
               const percentage = (values / result * 100).toFixed(2).toString() + "%";
-              return `${labels}: ${values} (${percentage})`;
+              return `${labels}: ${percentage}`;
             }
           }
         }
@@ -403,6 +431,18 @@ function displayGraph(chart,inputData,canvasId){
   let backgroundColor = Array(x_vals.length).fill("rgba(255, 99, 132, 0.2)");
   let borderColor = Array(x_vals.length).fill("rgba(255, 99, 132, 1)");
 
+  console.log(x_vals);
+  console.log(Math.max(...x_vals));
+  let xMax = Math.max(...x_vals);
+  let yMax = Math.max(...y_vals);
+  xMax = xMax + Math.round(xMax * 0.1);
+  yMax = yMax + Math.round(yMax * 0.1);
+
+  let enemyAC = 0;
+  if(canvasId == "player1Chart"){ enemyAC = allInputs["P2Ac"] - 0.5; }
+  if(canvasId == "player2Chart"){ enemyAC = allInputs["P1Ac"] - 0.5; }
+  if(enemyAC > xMax){ enemyAC = 0; }
+
   Chart.getChart(canvasId).destroy();
   chart = new Chart(canvasId, {
     type: "bar",
@@ -418,6 +458,8 @@ function displayGraph(chart,inputData,canvasId){
         borderRadius: 5,
       }]
     },
+    lineAtIndex: [enemyAC],
+    plugins: [verticalLinePlugin],
     options: {
       scales: {
         x: {
@@ -436,7 +478,8 @@ function displayGraph(chart,inputData,canvasId){
             font: {
               size: 14
             }
-          }
+          },
+          max: xMax
         }, 
         y: {
           beginAtZero: true,
@@ -446,7 +489,8 @@ function displayGraph(chart,inputData,canvasId){
             font: {
               size: 14
             }
-          }
+          },
+          max: yMax
         }
       },
       plugins: {
@@ -466,6 +510,22 @@ function displayGraph(chart,inputData,canvasId){
           }
         }
       }
+    },
+    annotation: {
+      annotations: [
+        {
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
+          value: 5,
+          borderColor: "red",
+          label: {
+            content: "Playher AC",
+            enabled: true,
+            position: "top"
+          }
+        }
+      ]
     }
   });
 }
@@ -493,7 +553,7 @@ function validateInteger(inputString){
  * Returns true when all inputs are valid.
  * @param {array}
  */
-function validateInputs(allInputs){
+function validateInputs(){
   let invalidFields = [];
 
   // Integer verification
@@ -566,10 +626,14 @@ function validateInputs(allInputs){
   }
 }
 
-// Function execution
+/**
+ * Creates an alert and returns false when any input is invalid.
+ * Returns true when all inputs are valid.
+ * @param {}
+ */
 function processAllInputs(){
   console.log("processAllInputs");
-  let allInputs = getInputs();
+  getInputs();
 
   let valid = validateInputs(allInputs);
   if(valid){
@@ -593,7 +657,6 @@ function processAllInputs(){
     let p2HitAverage = p2HitSum / p2Process.length;
     console.log("P2HitAverage: "+p2HitAverage);
 
-
     // Getting the result of damage dice
     let p1Damage = processDieString(allInputs["P1DamageDice"]);
     let p1DamageSum = p1Damage.reduce((acc, curr) => acc + curr, 0);
@@ -614,11 +677,12 @@ function processAllInputs(){
     allInputs["P2AverageDamage"] = p2DamageAverage;
     allInputs["P2HitDiceValues"] = p2Process;
 
-    processPieChart(pieChart,allInputs,"oddsPieChart");
+    displayPieChart(pieChart,"oddsPieChart");
   }
   else{console.log("Booooooo!");}
 }
 
+// Function execution
 /**
  * Waits until all content is loaded before initializing the three charts.
  */
