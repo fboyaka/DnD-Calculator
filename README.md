@@ -11,7 +11,7 @@ This Design Doc will be created using guidelines described in the [Initial Plann
 
 
 ## SPRINT 1 WEEK 1 (August 11)
-| MON | TUES | WED  | THURS | FRI | SAT |
+| MON | TUES | WED  | THURS | FRI |
 |--|--|--|--|--|
 |~~(0.5 pts) Sprint Planning~~|~~(0.5 pts) Button/Input Initialization~~|~~(1 pt) Range of Hit Dice VS AC graph~~|~~(1 pt) DPS Calculation per Character~~|~~(0.5 pts) Sprint Retrospective~~|
 |~~(0.5 pts) Initialize Inputs and Buttons~~|~~(0.5 pts) Graph Initialization~~|||~~(0.5 pts) Input Validation~~|
