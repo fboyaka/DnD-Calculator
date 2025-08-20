@@ -29,7 +29,7 @@ const verticalLinePlugin = {
   renderVerticalLine: function (chartInstance, pointIndex) {
     // console.log("pointIndex");
     // console.log(pointIndex);
-    const lineLeftOffset = chartInstance.scales.x.getPixelForValue(parseInt(pointIndex));
+    const lineLeftOffset = chartInstance.scales.x.getPixelForValue(parseInt(pointIndex) + 0.5);
     const scale = chartInstance.scales.y;
 
     const context = chartInstance.ctx;
@@ -847,7 +847,12 @@ function processAllInputs(){
 
     // Moving all chart displaying functionality into the new single graph.
     displayBothGraphs(p1Chart,"player1Chart");
-    Chart.getChart("player2Chart").destroy();
+    try{
+      Chart.getChart("player2Chart").destroy();
+    }catch{
+      console.log("Chart already destroyed");
+    }
+    
 
     // Getting the result of hit dice
     let p1HitSum = p1Process.reduce((acc, curr) => acc + curr, 0);
