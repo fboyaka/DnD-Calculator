@@ -341,8 +341,8 @@ function calculateDamageScore(player){
  */
 function displayPieChart(chart,canvasId){
   console.log("initializePieChart: ");
-  let p1FullCalc = calculateDamageScore(allInputs,"P1");
-  let p2FullCalc = calculateDamageScore(allInputs,"P2");
+  let p1FullCalc = calculateDamageScore("P1");
+  let p2FullCalc = calculateDamageScore("P2");
   let calcSum = p1FullCalc+p2FullCalc;
   Chart.getChart(canvasId).destroy();
 
@@ -555,32 +555,32 @@ function validateInteger(inputString){
  */
 function validateInputs(){
   let invalidFields = [];
-
+  console.log("P1Health"+allInputs["P1Health"].length);
   // Integer verification
   try{
     // P1Health
-    if(validateInteger(allInputs["P1Health"])){ invalidFields.push("Player 1 Health"); }
+    if(allInputs["P1Health"].length == 0 || validateInteger(allInputs["P1Health"])){ invalidFields.push("Player 1 Health"); }
   }
   catch{
     invalidFields.push("Player 1 Health");
   }
   try{
     // P1Ac
-    if(validateInteger(allInputs["P1Ac"])){ invalidFields.push("Player 1 AC"); }
+    if(allInputs["P1Ac"].length == 0 || validateInteger(allInputs["P1Ac"])){ invalidFields.push("Player 1 AC"); }
   }
   catch{
     invalidFields.push("Player 1 AC");
   }
   try{
     // P2Health
-    if(validateInteger(allInputs["P2Health"])){ invalidFields.push("Player 2 Health"); }
+    if(allInputs["P2Health"].length == 0 || validateInteger(allInputs["P2Health"])){ invalidFields.push("Player 2 Health"); }
   }
   catch{
     invalidFields.push("Player 2 Health");
   }
   try{
     // P2Ac
-    if(validateInteger(allInputs["P2Ac"])){ invalidFields.push("Player 2 AC"); }
+    if(allInputs["P2Ac"].length == 0 || validateInteger(allInputs["P2Ac"])){ invalidFields.push("Player 2 AC"); }
   }
   catch{
     invalidFields.push("Player 2 AC");
@@ -590,28 +590,28 @@ function validateInputs(){
   // String verification
   try{
     // P1HitDice
-    if(validateString(allInputs["P1HitDice"])){ invalidFields.push("Player 1 Hit Dice"); }
+    if(allInputs["P1HitDice"].length == 0 || validateString(allInputs["P1HitDice"])){ invalidFields.push("Player 1 Hit Dice"); }
   }
   catch{
     invalidFields.push("Player 1 Hit Dice");
   }
   try{
     // P1DamageDice
-    if(validateString(allInputs["P1DamageDice"])){ invalidFields.push("Player 1 Damage Dice"); }
+    if(allInputs["P1DamageDice"].length == 0 || validateString(allInputs["P1DamageDice"])){ invalidFields.push("Player 1 Damage Dice"); }
   }
   catch{
     invalidFields.push("Player 1 Damage Dice");
   }
   try{
     // P2HitDice
-    if(validateString(allInputs["P2HitDice"])){ invalidFields.push("Player 2 Hit Dice"); }
+    if(allInputs["P2HitDice"].length == 0 || validateString(allInputs["P2HitDice"])){ invalidFields.push("Player 2 Hit Dice"); }
   }
   catch{
     invalidFields.push("Player 2 Hit Dice");
   }
   try{
     // P2DamageDice
-    if(validateString(allInputs["P2DamageDice"])){ invalidFields.push("Player 2 Damage Dice"); }
+    if(allInputs["P2DamageDice"].length == 0 || validateString(allInputs["P2DamageDice"])){ invalidFields.push("Player 2 Damage Dice"); }
   }
   catch{
     invalidFields.push("Player 2 Damage Dice");
@@ -635,7 +635,7 @@ function processAllInputs(){
   console.log("processAllInputs");
   getInputs();
 
-  let valid = validateInputs(allInputs);
+  let valid = validateInputs();
   if(valid){
 
     let p1Process = processDieString(allInputs["P1HitDice"]);
@@ -679,7 +679,9 @@ function processAllInputs(){
 
     displayPieChart(pieChart,"oddsPieChart");
   }
-  else{console.log("Booooooo!");}
+  else{
+    console.log("Booooooo!");
+  }
 }
 
 // Function execution
