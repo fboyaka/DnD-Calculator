@@ -16,9 +16,7 @@ const months = [
 ];
 
 let p1Chart = "";
-//const p1Context = document.getElementById("player1Chart").getContext("2d");
 let p2Chart = "";
-//const p2Context = document.getElementById("player2Chart").getContext("2d");
 let pieChart = "";
 let allInputs = {};
 
@@ -27,23 +25,40 @@ let allInputs = {};
  */
 // https://stackoverflow.com/questions/30256695/chart-js-drawing-an-arbitrary-vertical-line
 const verticalLinePlugin = {
+
   renderVerticalLine: function (chartInstance, pointIndex) {
-    const lineLeftOffset = chartInstance.scales.x.getPixelForValue(pointIndex);
+    // console.log("pointIndex");
+    // console.log(pointIndex);
+    const lineLeftOffset = chartInstance.scales.x.getPixelForValue(parseInt(pointIndex));
     const scale = chartInstance.scales.y;
 
     const context = chartInstance.ctx;
-    // render vertical line
-    context.beginPath();
-    context.strokeStyle = '#2f00ffff';
-    context.lineWidth = 5;
-    context.moveTo(lineLeftOffset, scale.top);
-    context.lineTo(lineLeftOffset, scale.bottom);
-    context.stroke();
+    
+    let lineColor = "#2f00ffff";
+    let playerName = "";
 
-    // write label
-    context.fillStyle = "#000000ff";
-    context.textAlign = 'center';
-    context.fillText('AC to beat', lineLeftOffset, scale.top);
+    if(pointIndex == allInputs["P1Ac"]){
+      playerName = "P1 AC";
+      lineColor = "rgb(255, 166, 0)";
+    } if(pointIndex == allInputs["P2Ac"]){
+      playerName = "P2 AC";
+      lineColor = "rgb(92, 0, 0)";
+    } 
+
+    if(pointIndex != 0 && playerName != ""){
+      // render vertical line
+      context.beginPath();
+      context.strokeStyle = lineColor
+      context.lineWidth = 5;
+      context.moveTo(lineLeftOffset, scale.top);
+      context.lineTo(lineLeftOffset, scale.bottom);
+      context.stroke();
+
+      // write label
+      context.fillStyle = "#000000ff";
+      context.textAlign = "center";
+      context.fillText(playerName, lineLeftOffset, scale.top);
+    }
   },
 
   beforeDatasetsDraw: function (chart, easing) {
@@ -168,8 +183,6 @@ function getDieValues(dieString){
   return resultsList;
 }
 
-
-
 /**
  * Processes multiple die strings.
  * Format: ["2d3","1d4"]
@@ -234,35 +247,60 @@ function initializeBarChart(canvasId){
         "rgb(201, 203, 207)"
       ],
       borderWidth: 1
-    }]
+    },{
+      label: "My Second Dataset",
+      data: [10, 20, 30, 40, 50, 60, 60],
+      backgroundColor: [
+        "rgba(75, 192, 192, 0.2)",
+        "rgba(54, 162, 235, 0.2)",
+        "rgba(153, 102, 255, 0.2)",
+        "rgba(201, 203, 207, 0.2)",
+        "rgba(255, 99, 132, 0.2)",
+        "rgba(255, 159, 64, 0.2)",
+        "rgba(255, 205, 86, 0.2)"
+      ],
+      borderColor: [
+        "rgb(75, 192, 192)",
+        "rgb(54, 162, 235)",
+        "rgb(153, 102, 255)",
+        "rgb(201, 203, 207)",
+        "rgb(255, 99, 132)",
+        "rgb(255, 159, 64)",
+        "rgb(255, 205, 86)"        
+      ],
+      borderWidth: 1
+    }
+  ]
   };
   if(canvasId == "P1"){
-  p1Chart = new Chart(ctx, {
-    type: "bar",
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+    p1Chart = new Chart(ctx, {
+      type: "bar",
+      data: data,
+      options: {
+        scales: {
+          x:{
+            stacked: true,
+          },
+          y: {
+            beginAtZero: true
+          }
         }
       }
-    }
-  });
+    });
   }
-
   if(canvasId == "P2"){
-  p2Chart = new Chart(ctx, {
-    type: "bar",
-    data: data,
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true,
-          max: 120
+    p2Chart = new Chart(ctx, {
+      type: "bar",
+      data: data,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 120
+          }
         }
       }
-    }
-  });
+    });
   }
 }
 
@@ -308,7 +346,6 @@ function calculateDamageScore(player){
   let ac = 0;
   let hp = 0;
   let avgDamage = 0;
-
 
   if(player == "P1"){
     hitDice = allInputs["P1HitDiceValues"];
@@ -412,6 +449,163 @@ function removeData(chart) {
       dataset.data.pop();
   });
   chart.update();
+}
+
+
+/**
+ * Updates the given graph with a given string of data
+ * Source of how to get 
+ * https://www.youtube.com/watch?v=aSaSGpb2q5w
+ * @param {Chart, string}
+ */
+function displayBothGraphs(chart,canvasId){
+  console.log("display both at "+canvasId);
+  
+  // https://leimao.github.io/blog/JavaScript-ChartJS-Histogram/
+  // p1 calculations
+  let p1allVals = countValues(allInputs["P1HitDiceValues"]);
+  let p1x_vals = p1allVals[0];
+  let p1y_vals = p1allVals[1];
+  let p1y_vals_sums = p1y_vals;
+  p1y_vals_sums = p1y_vals_sums.reduce((partialSum, a) => partialSum + a, 0);
+  let p1data = p1x_vals.map((k, i) => ({x: k, y: p1y_vals[i]}));
+  let p1backgroundColor = Array(p1x_vals.length).fill("rgba(88, 80, 141, 0.2)");
+  let p1borderColor = Array(p1x_vals.length).fill("rgba(88, 80, 141, 1)");
+
+  let p1xMax = Math.max(...p1x_vals);
+  let p1yMax = Math.max(...p1y_vals);
+  p1xMax = p1xMax + Math.round(p1xMax * 0.1);
+  p1yMax = p1yMax + Math.round(p1yMax * 0.1);
+
+  // p2 calculations
+  let p2allVals = countValues(allInputs["P2HitDiceValues"]);
+  let p2x_vals = p2allVals[0];
+  let p2y_vals = p2allVals[1];
+  let p2y_vals_sums = p2y_vals;
+  p2y_vals_sums = p2y_vals_sums.reduce((partialSum, a) => partialSum + a, 0);
+  let p2data = p2x_vals.map((k, i) => ({x: k, y: p2y_vals[i]}));
+  let p2backgroundColor = Array(p2x_vals.length).fill("rgba(255, 166, 0, 0.2)");
+  let p2borderColor = Array(p2x_vals.length).fill("rgba(255, 166, 0, 1)");
+
+  let p2xMax = Math.max(...p2x_vals);
+  let p2yMax = Math.max(...p2y_vals);
+  p2xMax = p2xMax + Math.round(p2xMax * 0.1);
+  p2yMax = p2yMax + Math.round(p2yMax * 0.1);
+
+  console.log("p1 sums:"+p1y_vals_sums);
+  console.log("p2 sums:"+p2y_vals_sums);
+
+  let p1enemyAC = 0;
+  let p2enemyAC = 0;
+  p1enemyAC = allInputs["P2Ac"];
+  p2enemyAC = allInputs["P1Ac"];
+  if(p1enemyAC > p1xMax){ p1enemyAC = 0; }
+  if(p2enemyAC > p2xMax){ p2enemyAC = 0; }
+
+  let xMax = Math.max(p1xMax,p2xMax);
+  let yMax = Math.max(p1yMax,p2yMax);
+
+  Chart.getChart(canvasId).destroy();
+  chart = new Chart(canvasId, {
+    type: "bar",
+    data: {
+      datasets: [{
+        label: "# of P1 rolls with this value",
+        data: p1data,
+        backgroundColor: p1backgroundColor,
+        borderColor: p1borderColor,
+        borderWidth: 1,
+        barPercentage: 1,
+        categoryPercentage: 1,
+        borderRadius: 5,
+      },{
+        label: "# of P2 rolls with this value",
+        data: p2data,
+        backgroundColor: p2backgroundColor,
+        borderColor: p2borderColor,
+        borderWidth: 1,
+        barPercentage: 1,
+        categoryPercentage: 1,
+        borderRadius: 5,
+      },
+      ]
+    },
+    lineAtIndex: [p1enemyAC, p2enemyAC],
+    plugins: [verticalLinePlugin],
+    options: {
+      scales: {
+        x: {
+          beginAtZero: true,
+          type: "linear",
+          offset: false,
+          grid: {
+            offset: false
+          },
+          ticks: {
+            stepSize: 1
+          },
+          title: {
+            display: true,
+            text: "Result",
+            font: {
+              size: 14
+            }
+          },
+          stacked: true,
+          max: xMax
+        }, 
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Frequency",
+            font: {
+              size: 14
+            }
+          },
+          max: yMax
+          }
+      },
+      plugins: {
+        title: {
+          display: true,
+          text: "Comparison of P1 and P2 Hit Dice and AC"
+        },
+        legend: {
+          display: false,
+        },
+        tooltip: {
+          callbacks: {
+            title: (items) => {
+              if (!items.length) {
+                return "";
+              }
+              const item = items[0];
+              const y_vals_sums = item.datasetIndex == 0 ? p1y_vals_sums : p2y_vals_sums;
+              const y = item.parsed.y;
+              return "Odds of value: "+((y/y_vals_sums*100).toFixed(2)).toString()+"%";
+            }
+          }
+        }
+      }
+    },
+    annotation: {
+      annotations: [
+        {
+          type: "line",
+          mode: "vertical",
+          scaleID: "x-axis-0",
+          value: 5,
+          borderColor: "red",
+          label: {
+            content: "Playher AC",
+            enabled: true,
+            position: "top"
+          }
+        }
+      ]
+    }
+  });
 }
 
 /**
@@ -641,12 +835,19 @@ function processAllInputs(){
     let p1Process = processDieString(allInputs["P1HitDice"]);
     console.log("Process Result1:");
     console.log(p1Process.length);
-    displayGraph(p1Chart,p1Process,"player1Chart");
+    allInputs["P1HitDiceValues"] = p1Process;
+    // displayGraph(p1Chart,p1Process,"player1Chart");
+
 
     let p2Process = processDieString(allInputs["P2HitDice"]);
     console.log("Process Result2:");
     console.log(p2Process.length);
-    displayGraph(p2Chart,p2Process,"player2Chart");
+    allInputs["P2HitDiceValues"] = p2Process;
+    // displayGraph(p2Chart,p2Process,"player2Chart");
+
+    // Moving all chart displaying functionality into the new single graph.
+    displayBothGraphs(p1Chart,"player1Chart");
+    Chart.getChart("player2Chart").destroy();
 
     // Getting the result of hit dice
     let p1HitSum = p1Process.reduce((acc, curr) => acc + curr, 0);
@@ -672,10 +873,8 @@ function processAllInputs(){
 
     allInputs["P1AverageHit"] = p1HitAverage;
     allInputs["P1AverageDamage"] = p1DamageAverage;
-    allInputs["P1HitDiceValues"] = p1Process;
     allInputs["P2AverageHit"] = p2HitAverage;
     allInputs["P2AverageDamage"] = p2DamageAverage;
-    allInputs["P2HitDiceValues"] = p2Process;
 
     displayPieChart(pieChart,"oddsPieChart");
   }
