@@ -3,11 +3,15 @@ This Design Doc will be created using guidelines described in the [Initial Plann
 
 ![Website with eight input fields, two buttons, and three charts](/images/DnD-Calculator-Working-Example.png "DnD Calculator Working Example")
 
+## Note
+This page will no longer be used to hold sprint information. That will be displayed on the main website [fboyaka.github.io](https://fboyaka.github.io/).
+
+
 ## SPRINT 1 WEEK 2 (August 18)
 | MON | TUES | WED  | THURS | FRI | SAT |
 |--|--|--|--|--|--|
-|~~(0.5pts) Sprint planning~~|~~(0.5pts) Vertical line on chart for AC~~|~~(1pt) Display hit dice results in a single chart~~|~~(0.5pts) Migrate code to fboyaka.github.io page~~|~~(0.5pts) Tab visuals~~|(1pt) Home/About Me page|
-|~~(0.5pts) Chart update~~|~~(0.5pts) Website layout and page planning~~||~~(0.5pts) Refactor code for fboyaka.github.io~~|~~(0.5pts) Tab functionality~~|(0.5pts) Sprint planning page|
+|~~(0.5pts) Sprint planning~~|~~(0.5pts) Vertical line on chart for AC~~|~~(1pt) Display hit dice results in a single chart~~|~~(0.5pts) Migrate code to fboyaka.github.io page~~|~~(0.5pts) Tab visuals~~|~~(1pt) Home/About Me page~~|
+|~~(0.5pts) Chart update~~|~~(0.5pts) Website layout and page planning~~||~~(0.5pts) Refactor code for fboyaka.github.io~~|~~(0.5pts) Tab functionality~~|~~(0.5pts) Sprint planning page~~|
 
 **Table 1:** Scrum Board
 
